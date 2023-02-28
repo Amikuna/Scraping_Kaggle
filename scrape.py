@@ -2,13 +2,12 @@ import requests
 import json
 import time
 import bs4 as bs
-import pickle
 import pandas as pd
 from config import token, cookie
 
 url = "https://www.kaggle.com/api/i/datasets.DatasetService/SearchDatasets"
 
-# print(type(totalResults))
+
 #change link to other tags like "computer science", "data visualization"
 #we have to change "categoryIds", and to change pages change "page" and link &page=<pg_number>
 #when changing link add link &page=1 and change "1" with page number
@@ -25,7 +24,7 @@ thumbnailImage = []
 usability = []
 totalSize = []
 
-# print(dataset[1])
+
 counter = 1
 cond = True
 while cond:
@@ -69,11 +68,7 @@ while cond:
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
-    # f = open("src.pickle", "wb")
-    # pickle.dump(response.json(), f)
 
-    # f = open("src.pickle", "rb")
-    # data = pickle.load(f)
     data = response.json()
     lists = data["datasetList"]
     dataset = lists['items']
@@ -108,12 +103,12 @@ while cond:
             totalVotes.append(0)
 
     for file in fileTypes:
-        # print(file)
+        
         if file is not None:
             f_type = ""
             num = 0
             size = 0
-            # print(file)
+            
             for f in file:
                 if "fileType" in f:
                     f_type+=f["fileType"]+","
@@ -127,10 +122,7 @@ while cond:
                     size+=int(f["totalSize"])
                 else:
                     size=None
-                # fileType.append(file[0]["fileType"])
-                # numFiles.append(file[0]["count"])
-                # # print(file[0]["count"])
-                # totalSize.append(file[0]["totalSize"])
+                
             fileType.append(f_type[:-1])
             numFiles.append(num)
             totalSize.append(size)
